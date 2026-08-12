@@ -17,46 +17,34 @@ El servicio queda disponible en `http://localhost:8080`.
 
 ## Endpoints disponibles
 
-### GET /api/status
+Todos los endpoints están en `VersionController`.
 
-Devuelve el estado del microservicio.
+### GET /api/saludo
 
-**Respuesta:**
-```json
-{
-  "status": "UP",
-  "service": "version",
-  "message": "Microservicio funcionando correctamente"
-}
-```
-
-### POST /api/calcular
-
-Recibe dos números y una operación, y devuelve el resultado.
-
-**Body de ejemplo:**
-```json
-{
-  "operacion": "suma",
-  "a": 10,
-  "b": 5
-}
-```
-
-Operaciones soportadas: `suma`, `resta`, `multiplicacion`, `division`.
+Devuelve un saludo fijo.
 
 **Respuesta:**
 ```json
 {
-  "operacion": "suma",
-  "resultado": 15.0
+  "mensaje": "Hola Mundo"
 }
 ```
 
-Si `operacion` es `division` y `b` es 0, o si se envía una operación no soportada, el endpoint responde con un mensaje de error en vez de fallar.
+### GET /api/saludo/{nombre}
+
+Devuelve un saludo personalizado.
+
+**Ejemplo:** `GET /api/saludo/Francisco`
+
+**Respuesta:**
+```json
+{
+  "mensaje": "Hola, Francisco"
+}
+```
 
 ## Historial de versiones
 
-- **1.0.0** — Creación del microservicio con endpoint `GET /api/status`.
-- **1.1.0** — Nuevo endpoint `POST /api/calcular`.
-- **1.1.1** — Corrección de bug: división por cero y operaciones no soportadas ya no rompen el endpoint.
+- **1.0.0** — Creación del microservicio con endpoint `GET /api/saludo`.
+- **1.1.0** — Nuevo endpoint `GET /api/saludo/{nombre}`.
+- **1.1.1** — Corrección de bug: el saludo personalizado cortaba la última letra del nombre.

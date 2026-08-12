@@ -20,7 +20,7 @@ public class VersionController {
     @GetMapping("/api/saludo/{nombre}")
     public Map<String, Object> saludoConNombre(@PathVariable String nombre) {
         Map<String, Object> response = new LinkedHashMap<>();
-        response.put("mensaje", "Hola, " + nombre.substring(0, nombre.length() - 1));
+        response.put("mensaje", "Hola, " + nombre);
         return response;
     }
 }
