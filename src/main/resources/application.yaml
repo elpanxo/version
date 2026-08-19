@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: version
+jwt:
+  secret: EstaEsUnaClaveSuperSeguraDe32Caracteres123!
