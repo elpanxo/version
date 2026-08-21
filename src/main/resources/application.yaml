@@ -1,5 +1,9 @@
 spring:
   application:
-    name: version
-jwt:
-  secret: EstaEsUnaClaveSuperSeguraDe32Caracteres123!
+    name: versionamientov2
+
+security:
+  oauth2:
+    resourceserver:
+      jwt:
+        issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_dQziLeKtv
