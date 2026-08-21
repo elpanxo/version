@@ -1,6 +1,7 @@
 package com.versionamiento.version.security;
 
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 
 import javax.crypto.SecretKey;
 
@@ -21,7 +22,7 @@ public class SecurityConfig {
     @Value("${jwt.secret}")
     private String secretString;
 
-    private SecretKey getSigningKey() {
+    private Key getSigningKey() {
         // Convierte el texto plano de la variable de entorno en una llave criptográfica
         // segura para HS256
         return Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
@@ -29,7 +30,10 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withSecretKey(getSigningKey()).build();
+        // Usamos directamente tu método getSigningKey() casteándolo a SecretKey que
+        // exige Nimbus
+        SecretKey secretKey = (SecretKey) getSigningKey();
+        return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }
 
     @Bean
@@ -37,7 +41,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF para APIs REST
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/saludo/**").permitAll()
+                        .requestMatchers("/api/v1/public").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.decoder(jwtDecoder())) // Usamos el decodificador personalizado con nuestra

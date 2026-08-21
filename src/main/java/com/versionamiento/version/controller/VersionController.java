@@ -1,26 +1,29 @@
 package com.versionamiento.version.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
+@RequestMapping("/api/v1")
 public class VersionController {
-
-    @GetMapping("/api/saludo")
-    public Map<String, Object> saludo() {
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("mensaje", "Hola Mundo");
-        return response;
+    @GetMapping
+    public String holaMundo(@AuthenticationPrincipal Jwt jwt) {
+        String usuario = jwt.getSubject();
+        return "hola mundo v1.0.0- bug corregido v1.1.1 " + usuario;
     }
 
-    @GetMapping("/api/saludo/{nombre}")
-    public Map<String, Object> saludoConNombre(@PathVariable String nombre) {
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("mensaje", "Hola, " + nombre);
-        return response;
+    @PostMapping
+    public String despedida(@AuthenticationPrincipal Jwt jwt) {
+        String usuario = jwt.getSubject();
+        return "despedida V1.1.0 " + usuario;
+    }
+
+    @GetMapping("/public")
+    public String endpointLibre() {
+        return "enspoint sin validacion";
     }
 }
