@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("/api/v1")
 public class VersionController {
     @GetMapping
-    public String holaMundo(@AuthenticationPrincipal Jwt jwt) {
-        String usuario = jwt.getSubject();
-        return "hola mundo v1.0.0- bug corregido v1.1.1 " + usuario;
+    public String saludo(@AuthenticationPrincipal Jwt jwt) {
+        var usuario = jwt.getClaims();
+        return "hola mundo - correccion bug v1.1.1 usuario autenticado: " + usuario;
     }
 
     @PostMapping
