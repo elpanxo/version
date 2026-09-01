@@ -1,6 +1,8 @@
-security:
-  oauth2:
-    resourceserver:
-      jwt:
-        issuer-uri: https://login.microsoftonline.com/
-        client-id: e5372bf0-c5e3-4286-887c-79069f209c1f
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:
+          tenant-id:
+          client-id:
