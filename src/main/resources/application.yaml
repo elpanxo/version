@@ -1,8 +1,6 @@
-spring:
-  application:
-    name: versionamientov2
 security:
   oauth2:
     resourceserver:
       jwt:
-        issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_dQziLeKtv
+        issuer-uri: https://login.microsoftonline.com/
+        client-id: e5372bf0-c5e3-4286-887c-79069f209c1f

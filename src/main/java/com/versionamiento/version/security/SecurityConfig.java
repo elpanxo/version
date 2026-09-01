@@ -13,28 +13,32 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // Aquí defines el Issuer Uri de tu Cognito User Pool en tus
-    // application.properties
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String issuerUri;
 
+    @Value("${spring.security.oauth2.resourceserver.jwt.tenant-id}")
+    private String tenantId;
+
     @Bean
     public JwtDecoder jwtDecoder() {
-        // Spring Boot descargará automáticamente las llaves públicas (JWKS) desde
-        // Cognito para validar la firma
-        return NimbusJwtDecoder.withJwkSetUri(issuerUri + "/.well-known/jwks.json").build();
+
+        String jwkSetUri = issuerUri
+                + tenantId
+                + "/discovery/v2.0/keys";
+
+        return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(authorize -> authorize
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/public").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt
-                                .decoder(jwtDecoder())));
+                        .jwt(jwt -> jwt.decoder(jwtDecoder())));
 
         return http.build();
     }
